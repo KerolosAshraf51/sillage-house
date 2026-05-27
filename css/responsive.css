@@ -1,0 +1,82 @@
+/* Responsive Styles for Sillage House */
+
+@media (max-width: 991.98px) {
+  .hero-title {
+    font-size: 3rem;
+  }
+  
+  .navbar-nav {
+    background: var(--secondary-black);
+    padding: 20px;
+    margin-top: 15px;
+    border: 1px solid var(--glass-border);
+  }
+  
+  .nav-link {
+    margin: 10px 0;
+  }
+  
+  .nav-link::after {
+    display: none;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 14px;
+    letter-spacing: 3px;
+  }
+  
+  .section-padding {
+    padding: 60px 0;
+  }
+  
+  .promo-banner h2 {
+    font-size: 30px;
+  }
+  
+  .footer {
+    text-align: center;
+  }
+  
+  .footer-links {
+    margin-bottom: 30px;
+  }
+  
+  .product-detail-title {
+    font-size: 28px;
+  }
+  
+  .admin-sidebar {
+    min-height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--glass-border);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .newsletter-form {
+    flex-direction: column;
+  }
+  
+  .newsletter-input {
+    border-right: 1px solid var(--glass-border);
+    margin-bottom: 10px;
+  }
+  
+  .newsletter-btn {
+    padding: 15px;
+  }
+  
+  .login-card {
+    padding: 30px 20px;
+  }
+}

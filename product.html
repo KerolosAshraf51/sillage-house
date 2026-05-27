@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details | Sillage House</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="icon" type="image/jpeg" href="images/logo.jpg">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top" style="background: rgba(10, 10, 10, 0.95) !important;">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Sillage <span>House</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+          <li class="nav-item"><a class="nav-link" href="categories.html">Categories</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+        <div class="nav-icons d-flex">
+          <div id="login-nav-item">
+            <a href="login.html" class="nav-link"><i class="fas fa-user"></i> Login</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Product Details Section -->
+  <section class="section-padding" style="margin-top: 80px;">
+    <div class="container" id="product-detail-container">
+      <!-- Injected by JS -->
+      <div class="text-center py-5 text-light">Loading product...</div>
+    </div>
+  </section>
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <a href="index.html" class="footer-brand">Sillage <span>House</span></a>
+          <p class="footer-text">
+            Crafting memories through scent. We bring you the world's most luxurious and exclusive fragrances, curated for the modern connoisseur.
+          </p>
+          <div class="social-icons">
+            <a href="https://www.instagram.com/houseofsillagee_?igsh=NWNzZWZ3c25vOTNz&utm_source=qr" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@the.house.of.sill" target="_blank"><i class="fab fa-tiktok"></i></a>
+            <a href="https://wa.me/201207373408" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <!-- (Standard Footer Links omitted for brevity, keeping brand and social) -->
+        <div class="col-lg-2 col-md-4 mb-4">
+          <h4 class="footer-title">Shop</h4>
+          <ul class="footer-links">
+            <li><a href="shop.html">All Perfumes</a></li>
+            <li><a href="categories.html">New Arrivals</a></li>
+            <li><a href="categories.html">Best Sellers</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-4 mb-4">
+          <h4 class="footer-title">Company</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">Our Story</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-4 col-md-4 mb-4">
+          <h4 class="footer-title">Contact</h4>
+          <ul class="footer-links">
+            <li><a href="mailto:sillagehouse1@gmail.com"><i class="fas fa-envelope text-gold me-2"></i> sillagehouse1@gmail.com</a></li>
+            <li><a href="tel:+201207373408"><i class="fas fa-phone text-gold me-2"></i> +20 12 07373408</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; Sillage House. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get('id');
+      
+      const container = document.getElementById('product-detail-container');
+      const relatedContainer = document.getElementById('related-products');
+      
+      if (!id) {
+        container.innerHTML = '<div class="text-center py-5"><h2 class="text-white">Product not found.</h2><a href="shop.html" class="btn btn-gold mt-4">Return to Shop</a></div>';
+        return;
+      }
+      
+      const product = ProductService.getProductById(id);
+      
+      if (!product) {
+        container.innerHTML = '<div class="text-center py-5"><h2 class="text-white">Product not found.</h2><a href="shop.html" class="btn btn-gold mt-4">Return to Shop</a></div>';
+        return;
+      }
+      
+      // Update Title
+      document.title = `${product.name} | Sillage House`;
+      
+      const priceHTML = product.oldPrice 
+        ? `<span class="old-price" style="font-size:20px;">$${parseFloat(product.oldPrice).toFixed(2)}</span> $${parseFloat(product.price).toFixed(2)}`
+        : `$${parseFloat(product.price).toFixed(2)}`;
+        
+      const badgeHTML = product.isNew ? '<div class="discount-badge">New</div>' : 
+                        (product.oldPrice ? '<div class="discount-badge">Sale</div>' : '');
+      
+      // Image gallery logic
+      const mainImage = product.images && product.images.length > 0 ? product.images[0] : 'https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=600&auto=format&fit=crop';
+      
+      let thumbsHTML = '';
+      if (product.images && product.images.length > 1) {
+        thumbsHTML = '<div class="d-flex mt-3 gap-2 flex-wrap">';
+        product.images.forEach((img, idx) => {
+          thumbsHTML += `<img src="${img}" class="img-thumbnail" style="width: 80px; height: 80px; object-fit: cover; cursor: pointer; background-color: var(--secondary-black); border-color: var(--glass-border);" onclick="document.getElementById('main-product-img').src='${img}'">`;
+        });
+        thumbsHTML += '</div>';
+      }
+      
+      container.innerHTML = `
+        <div class="row align-items-center fade-in-section is-visible">
+          <div class="col-lg-6 mb-5 mb-lg-0">
+            <div class="product-gallery">
+              ${badgeHTML}
+              <img id="main-product-img" src="${mainImage}" alt="${product.name}">
+            </div>
+            ${thumbsHTML}
+          </div>
+          <div class="col-lg-6 ps-lg-5">
+            <div class="product-detail-brand">${product.brand}</div>
+            <h1 class="product-detail-title text-white">${product.name}</h1>
+            <div class="product-detail-price text-gold">${priceHTML}</div>
+            <p class="product-detail-desc">${product.description || ''}</p>
+            
+            <div class="mb-4 text-light">
+              <p class="mb-2"><strong>Category:</strong> ${product.category || 'Uncategorized'}</p>
+              <p class="mb-2"><strong>Availability:</strong> <span class="text-success">In Stock</span></p>
+              <p class="mb-0"><strong>Volume:</strong> ${product.volume ? product.volume + 'ml' : '100ml'}</p>
+            </div>
+          </div>
+        </div>
+      `;
+      
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop | Sillage House</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="icon" type="image/jpeg" href="images/logo.jpg">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Sillage <span>House</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="shop.html">Shop</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="categories.html">Categories</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">Contact</a>
+          </li>
+        </ul>
+        <div class="nav-icons d-flex">
+          <div id="login-nav-item">
+            <a href="login.html" class="nav-link"><i class="fas fa-user"></i> Login</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="section-padding" style="margin-top: 80px; background: url('https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=2000&auto=format&fit=crop') center/cover; position:relative;">
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7);"></div>
+    <div class="container relative z-1 text-center py-5">
+      <h1 class="text-gold text-uppercase" style="letter-spacing: 5px; font-weight: 300; font-size: 3rem;">Our Collection</h1>
+      <p class="text-light">Discover our complete range of luxury fragrances</p>
+    </div>
+  </section>
+
+  <!-- Shop Content -->
+  <section class="section-padding">
+    <div class="container">
+      <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3 mb-5">
+          <div class="bg-dark-glass p-4 fade-in-section">
+            <h4 class="text-gold text-uppercase mb-4" style="letter-spacing: 2px;">Filters</h4>
+            
+            <div class="mb-4">
+              <h5 class="text-white mb-3" style="font-size: 16px; text-transform: uppercase;">Search</h5>
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search..." id="shop-search">
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <h5 class="text-white mb-3" style="font-size: 16px; text-transform: uppercase;">Categories</h5>
+              <ul class="list-unstyled" id="shop-categories-list">
+                <li class="mb-2"><a href="#" class="text-gold filter-cat" data-cat="all">All Perfumes</a></li>
+                <!-- Injected dynamically -->
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Products Grid -->
+        <div class="col-lg-9">
+          <div class="d-flex justify-content-between align-items-center mb-4 fade-in-section">
+            <p class="mb-0 text-secondary">Showing <span id="product-count">0</span> results</p>
+            <select class="form-select bg-dark text-white border-secondary" style="width: auto;" id="sort-select">
+              <option value="default">Default Sorting</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+            </select>
+          </div>
+          
+          <div class="row" id="shop-products">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <a href="index.html" class="footer-brand">Sillage <span>House</span></a>
+          <p class="footer-text">
+            Crafting memories through scent. We bring you the world's most luxurious and exclusive fragrances, curated for the modern connoisseur.
+          </p>
+          <div class="social-icons">
+            <a href="https://www.instagram.com/houseofsillagee_?igsh=NWNzZWZ3c25vOTNz&utm_source=qr" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@the.house.of.sill" target="_blank"><i class="fab fa-tiktok"></i></a>
+            <a href="https://wa.me/201207373408" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 mb-4">
+          <h4 class="footer-title">Shop</h4>
+          <ul class="footer-links">
+            <li><a href="shop.html">All Perfumes</a></li>
+            <li><a href="categories.html">New Arrivals</a></li>
+            <li><a href="categories.html">Best Sellers</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-4 mb-4">
+          <h4 class="footer-title">Company</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">Our Story</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-4 col-md-4 mb-4">
+          <h4 class="footer-title">Contact</h4>
+          <ul class="footer-links">
+            <li><a href="mailto:sillagehouse1@gmail.com"><i class="fas fa-envelope text-gold me-2"></i> sillagehouse1@gmail.com</a></li>
+            <li><a href="tel:+201207373408"><i class="fas fa-phone text-gold me-2"></i> +20 12 07373408</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; Sillage House. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      let currentProducts = ProductService.getProducts();
+      
+      const renderShop = (products) => {
+        const container = document.getElementById('shop-products');
+        container.innerHTML = products.map(generateProductCardHTML).join('');
+        document.getElementById('product-count').innerText = products.length;
+        initScrollAnimations();
+      };
+      
+      // Dynamic Categories
+      const catList = document.getElementById('shop-categories-list');
+      if (catList && typeof CategoryService !== 'undefined') {
+        const categories = CategoryService.getCategories();
+        const catHTML = categories.map(c => `<li class="mb-2"><a href="#" class="text-light filter-cat" data-cat="${c}">${c}</a></li>`).join('');
+        catList.innerHTML += catHTML;
+      }
+      
+      // Filter by category using event delegation
+      catList.addEventListener('click', (e) => {
+        if (e.target.classList.contains('filter-cat')) {
+          e.preventDefault();
+          
+          // Update active styling
+          document.querySelectorAll('.filter-cat').forEach(el => {
+            el.classList.remove('text-gold');
+            el.classList.add('text-light');
+          });
+          e.target.classList.remove('text-light');
+          e.target.classList.add('text-gold');
+          
+          const cat = e.target.getAttribute('data-cat');
+          if (cat === 'all') {
+            currentProducts = ProductService.getProducts();
+          } else {
+            currentProducts = ProductService.getByCategory(cat);
+          }
+          renderShop(currentProducts);
+        }
+      });
+      
+      // Search
+      document.getElementById('shop-search').addEventListener('input', (e) => {
+        currentProducts = ProductService.search(e.target.value);
+        renderShop(currentProducts);
+      });
+      
+      // Sort
+      document.getElementById('sort-select').addEventListener('change', (e) => {
+        const val = e.target.value;
+        let sorted = [...currentProducts];
+        if (val === 'price-low') {
+          sorted.sort((a, b) => a.price - b.price);
+        } else if (val === 'price-high') {
+          sorted.sort((a, b) => b.price - a.price);
+        } else {
+          // Default: sort by ID or keep current
+          sorted.sort((a, b) => a.id - b.id);
+        }
+        renderShop(sorted);
+      });
+      
+      // Initial render is handled by app.js, but let's override with our shop logic
+      renderShop(currentProducts);
+    });
+  </script>
+</body>
+</html>
