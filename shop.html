@@ -11,6 +11,46 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="icon" type="image/jpeg" href="images/logo.jpg">
+
+  <style>
+    /* ── Pagination Gold Theme ── */
+    .pagination-gold {
+      gap: 6px;
+    }
+    .pagination-gold .page-link {
+      background: transparent;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      color: var(--primary-gold, #d4af37);
+      border-radius: 0 !important;
+      padding: 8px 16px;
+      font-size: 14px;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      font-family: 'Outfit', sans-serif;
+    }
+    .pagination-gold .page-link:hover {
+      background: var(--primary-gold, #d4af37);
+      border-color: var(--primary-gold, #d4af37);
+      color: #000;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+    .pagination-gold .page-item.active .page-link {
+      background: var(--primary-gold, #d4af37);
+      border-color: var(--primary-gold, #d4af37);
+      color: #000;
+      font-weight: 600;
+    }
+    .pagination-gold .page-item.disabled .page-link {
+      opacity: 0.25;
+      pointer-events: none;
+      background: transparent;
+      color: var(--primary-gold, #d4af37);
+    }
+    #shop-pagination {
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+  </style>
 </head>
 <body>
 
@@ -98,6 +138,9 @@
           <div class="row" id="shop-products">
             <!-- Injected by JS -->
           </div>
+
+          <!-- Pagination rendered here by JS -->
+          <nav id="shop-pagination" class="mt-5 d-flex justify-content-center" aria-label="Shop pagination"></nav>
         </div>
       </div>
     </div>
@@ -154,27 +197,94 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       let currentProducts = ProductService.getProducts();
-      
+
+      // ── Pagination state ──────────────────────────────────────
+      const PAGE_SIZE = 8;
+      let currentPage = 1;
+      // ─────────────────────────────────────────────────────────
+
       const renderShop = (products) => {
         const container = document.getElementById('shop-products');
-        container.innerHTML = products.map(generateProductCardHTML).join('');
+
+        // ── Slice the current page window ─────────────────────
+        const start = (currentPage - 1) * PAGE_SIZE;
+        const paged = products.slice(start, start + PAGE_SIZE);
+        container.innerHTML = paged.map(generateProductCardHTML).join('');
+        // ─────────────────────────────────────────────────────
+
         document.getElementById('product-count').innerText = products.length;
         initScrollAnimations();
+
+        // ── Render pagination controls ────────────────────────
+        renderPagination(products);
+        // ─────────────────────────────────────────────────────
       };
-      
+
+      // ── Pagination renderer ───────────────────────────────────
+      const renderPagination = (products) => {
+        const totalPages = Math.ceil(products.length / PAGE_SIZE);
+        const pag = document.getElementById('shop-pagination');
+
+        if (totalPages <= 1) {
+          pag.innerHTML = '';
+          return;
+        }
+
+        // Prev button
+        let html = `<ul class="pagination pagination-gold flex-wrap justify-content-center">`;
+        html += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                   <a href="#shop-products" class="page-link page-btn" data-page="${currentPage - 1}" aria-label="Previous">
+                     <i class="fas fa-chevron-left" style="font-size:11px;"></i>
+                   </a>
+                 </li>`;
+
+        // Page number buttons
+        for (let i = 1; i <= totalPages; i++) {
+          html += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+                     <a href="#shop-products" class="page-link page-btn" data-page="${i}">${i}</a>
+                   </li>`;
+        }
+
+        // Next button
+        html += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                   <a href="#shop-products" class="page-link page-btn" data-page="${currentPage + 1}" aria-label="Next">
+                     <i class="fas fa-chevron-right" style="font-size:11px;"></i>
+                   </a>
+                 </li>`;
+        html += `</ul>`;
+
+        pag.innerHTML = html;
+
+        // Attach click handlers
+        pag.querySelectorAll('.page-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const p = parseInt(btn.dataset.page);
+            if (isNaN(p) || p < 1 || p > totalPages) return;
+            currentPage = p;
+            renderShop(currentProducts);
+            // Smooth scroll back to product grid top
+            document.getElementById('shop-products').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        });
+      };
+      // ─────────────────────────────────────────────────────────
+
       // Dynamic Categories
       const catList = document.getElementById('shop-categories-list');
       if (catList && typeof CategoryService !== 'undefined') {
         const categories = CategoryService.getCategories();
-        const catHTML = categories.map(c => `<li class="mb-2"><a href="#" class="text-light filter-cat" data-cat="${c}">${c}</a></li>`).join('');
+        const catHTML = categories.map(c =>
+          `<li class="mb-2"><a href="#" class="text-light filter-cat" data-cat="${c}">${c}</a></li>`
+        ).join('');
         catList.innerHTML += catHTML;
       }
-      
+
       // Filter by category using event delegation
       catList.addEventListener('click', (e) => {
         if (e.target.classList.contains('filter-cat')) {
           e.preventDefault();
-          
+
           // Update active styling
           document.querySelectorAll('.filter-cat').forEach(el => {
             el.classList.remove('text-gold');
@@ -182,23 +292,23 @@
           });
           e.target.classList.remove('text-light');
           e.target.classList.add('text-gold');
-          
+
           const cat = e.target.getAttribute('data-cat');
-          if (cat === 'all') {
-            currentProducts = ProductService.getProducts();
-          } else {
-            currentProducts = ProductService.getByCategory(cat);
-          }
+          currentPage = 1; // reset on filter change
+          currentProducts = cat === 'all'
+            ? ProductService.getProducts()
+            : ProductService.getByCategory(cat);
           renderShop(currentProducts);
         }
       });
-      
+
       // Search
       document.getElementById('shop-search').addEventListener('input', (e) => {
+        currentPage = 1; // reset on search
         currentProducts = ProductService.search(e.target.value);
         renderShop(currentProducts);
       });
-      
+
       // Sort
       document.getElementById('sort-select').addEventListener('change', (e) => {
         const val = e.target.value;
@@ -208,13 +318,13 @@
         } else if (val === 'price-high') {
           sorted.sort((a, b) => b.price - a.price);
         } else {
-          // Default: sort by ID or keep current
           sorted.sort((a, b) => a.id - b.id);
         }
+        currentPage = 1; // reset on sort
         renderShop(sorted);
       });
-      
-      // Initial render is handled by app.js, but let's override with our shop logic
+
+      // Initial render
       renderShop(currentProducts);
     });
   </script>
